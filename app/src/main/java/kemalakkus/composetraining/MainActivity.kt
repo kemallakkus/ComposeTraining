@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kemalakkus.composetraining.ui.examples.ImageComponent
 import kemalakkus.composetraining.ui.examples.TextStyles
 import kemalakkus.composetraining.ui.theme.ComposeTrainingTheme
 
@@ -36,7 +37,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeTrainingTheme {
-                TextStyles()
+                ImageComponent()
             }
         }
     }
