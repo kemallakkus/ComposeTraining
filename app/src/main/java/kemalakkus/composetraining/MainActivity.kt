@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
@@ -19,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +29,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import kemalakkus.composetraining.ui.examples.ImageComponent
+import kemalakkus.composetraining.ui.examples.LazyColumnComponent
+import kemalakkus.composetraining.ui.examples.LazyComponentsSelectScreen
+import kemalakkus.composetraining.ui.examples.LazyGridComponent
+import kemalakkus.composetraining.ui.examples.LazyRowComponent
 import kemalakkus.composetraining.ui.examples.TextStyles
 import kemalakkus.composetraining.ui.theme.ComposeTrainingTheme
 
@@ -37,7 +46,29 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeTrainingTheme {
-                ImageComponent()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navHostController = rememberNavController()
+                    NavHost(
+                        navController = navHostController,
+                        startDestination = "lazy_components_select_screen"
+                    ) {
+                        composable("lazy_components_select_screen") {
+                            LazyComponentsSelectScreen(navHostController = navHostController)
+                        }
+                        composable("lazy_row_screen") {
+                            LazyRowComponent()
+                        }
+                        composable("lazy_column_screen") {
+                            LazyColumnComponent()
+                    }
+                        composable("lazy_grid_screen") {
+                            LazyGridComponent()
+                        }
+                    }
+                }
             }
         }
     }
