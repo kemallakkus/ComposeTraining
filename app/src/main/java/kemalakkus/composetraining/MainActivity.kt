@@ -11,33 +11,42 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Apps
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import kemalakkus.composetraining.ui.examples.ImageComponent
-import kemalakkus.composetraining.ui.examples.LazyColumnComponent
-import kemalakkus.composetraining.ui.examples.LazyComponentsSelectScreen
-import kemalakkus.composetraining.ui.examples.LazyGridComponent
-import kemalakkus.composetraining.ui.examples.LazyRowComponent
-import kemalakkus.composetraining.ui.examples.TextStyles
 import kemalakkus.composetraining.ui.theme.ComposeTrainingTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,29 +55,73 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeTrainingTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val navHostController = rememberNavController()
-                    NavHost(
-                        navController = navHostController,
-                        startDestination = "lazy_components_select_screen"
-                    ) {
-                        composable("lazy_components_select_screen") {
-                            LazyComponentsSelectScreen(navHostController = navHostController)
-                        }
-                        composable("lazy_row_screen") {
-                            LazyRowComponent()
-                        }
-                        composable("lazy_column_screen") {
-                            LazyColumnComponent()
-                    }
-                        composable("lazy_grid_screen") {
-                            LazyGridComponent()
-                        }
-                    }
+
+                var selected by remember {
+                    mutableStateOf(0)
                 }
+                Scaffold(
+                    bottomBar = {
+                        NavigationBar {
+                            bottomNavItems.forEachIndexed { index, bottomNavigationItem ->
+                                NavigationBarItem(
+                                    selected = index == selected,
+                                    onClick = {
+                                        selected = index
+//                                        navController.navigate(bottomNavigationItem.route)
+                                    },
+                                    icon = {
+                                        BadgedBox(
+                                            badge = {
+                                                if (bottomNavigationItem.badgeCount != 0) {
+                                                    Badge {
+                                                        Text(text = bottomNavigationItem.badgeCount.toString())
+                                                    }
+                                                } else if (bottomNavigationItem.hasNews) {
+                                                    Badge()
+                                                }
+                                            }
+                                        ) {
+                                            Icon(
+                                                imageVector = if (index == selected) bottomNavigationItem.selectedIcon else bottomNavigationItem.unselectedIcon,
+                                                contentDescription = null
+                                            )
+                                        }
+                                    },
+                                    label = {
+                                        Text(text = bottomNavigationItem.title)
+                                    }
+                                )
+                            }
+
+                        }
+                    }
+                ) {
+                    val paddingValues = it
+                }
+
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colorScheme.background
+//                ) {
+//                    val navHostController = rememberNavController()
+//                    NavHost(
+//                        navController = navHostController,
+//                        startDestination = "lazy_components_select_screen"
+//                    ) {
+//                        composable("lazy_components_select_screen") {
+//                            LazyComponentsSelectScreen(navHostController = navHostController)
+//                        }
+//                        composable("lazy_row_screen") {
+//                            LazyRowComponent()
+//                        }
+//                        composable("lazy_column_screen") {
+//                            LazyColumnComponent()
+//                    }
+//                        composable("lazy_grid_screen") {
+//                            LazyGridComponent()
+//                        }
+//                    }
+//                }
             }
         }
     }
@@ -147,3 +200,48 @@ fun GreetingPreview() {
         SecondUi()
     }
 }
+
+val bottomNavItems = listOf(
+    BottomNavigationItem(
+        title = "Home",
+        route = "home",
+        selectedIcon = Icons.Filled.Home,
+        unselectedIcon = Icons.Outlined.Home,
+        hasNews = false,
+        badgeCount = 0
+    ),
+    BottomNavigationItem(
+        title = "Posts",
+        route = "posts",
+        selectedIcon = Icons.Filled.Apps,
+        unselectedIcon = Icons.Outlined.Apps,
+        hasNews = false,
+        badgeCount = 0
+    ),
+    BottomNavigationItem(
+        title = "Notifications",
+        route = "notifications",
+        selectedIcon = Icons.Filled.Notifications,
+        unselectedIcon = Icons.Outlined.Notifications,
+        hasNews = false,
+        badgeCount = 5
+    ),
+    BottomNavigationItem(
+        title = "Profile",
+        route = "profile",
+        selectedIcon = Icons.Filled.Person,
+        unselectedIcon = Icons.Outlined.Person,
+        hasNews = true,
+        badgeCount = 0
+    )
+)
+
+
+data class BottomNavigationItem(
+    val title: String,
+    val route: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
+    val hasNews: Boolean,
+    val badgeCount: Int? = null,
+)
