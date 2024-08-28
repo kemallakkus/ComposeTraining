@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kemalakkus.composetraining.ui.examples.AnimationTraining
 import kemalakkus.composetraining.ui.theme.ComposeTrainingTheme
 
 class MainActivity : ComponentActivity() {
@@ -56,48 +57,63 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeTrainingTheme {
 
-                var selected by remember {
-                    mutableStateOf(0)
-                }
-                Scaffold(
-                    bottomBar = {
-                        NavigationBar {
-                            bottomNavItems.forEachIndexed { index, bottomNavigationItem ->
-                                NavigationBarItem(
-                                    selected = index == selected,
-                                    onClick = {
-                                        selected = index
-//                                        navController.navigate(bottomNavigationItem.route)
-                                    },
-                                    icon = {
-                                        BadgedBox(
-                                            badge = {
-                                                if (bottomNavigationItem.badgeCount != 0) {
-                                                    Badge {
-                                                        Text(text = bottomNavigationItem.badgeCount.toString())
-                                                    }
-                                                } else if (bottomNavigationItem.hasNews) {
-                                                    Badge()
-                                                }
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = if (index == selected) bottomNavigationItem.selectedIcon else bottomNavigationItem.unselectedIcon,
-                                                contentDescription = null
-                                            )
-                                        }
-                                    },
-                                    label = {
-                                        Text(text = bottomNavigationItem.title)
-                                    }
-                                )
-                            }
+                AnimationTraining()
 
-                        }
-                    }
-                ) {
-                    val paddingValues = it
-                }
+                /**
+                 * botttom navbar örneğinin state i
+                 */
+
+//                var selected by remember {
+//                    mutableStateOf(0)
+//                }
+
+                /**
+                 * botttom navbar örneği
+                 */
+
+//                Scaffold(
+//                    bottomBar = {
+//                        NavigationBar {
+//                            bottomNavItems.forEachIndexed { index, bottomNavigationItem ->
+//                                NavigationBarItem(
+//                                    selected = index == selected,
+//                                    onClick = {
+//                                        selected = index
+////                                        navController.navigate(bottomNavigationItem.route)
+//                                    },
+//                                    icon = {
+//                                        BadgedBox(
+//                                            badge = {
+//                                                if (bottomNavigationItem.badgeCount != 0) {
+//                                                    Badge {
+//                                                        Text(text = bottomNavigationItem.badgeCount.toString())
+//                                                    }
+//                                                } else if (bottomNavigationItem.hasNews) {
+//                                                    Badge()
+//                                                }
+//                                            }
+//                                        ) {
+//                                            Icon(
+//                                                imageVector = if (index == selected) bottomNavigationItem.selectedIcon else bottomNavigationItem.unselectedIcon,
+//                                                contentDescription = null
+//                                            )
+//                                        }
+//                                    },
+//                                    label = {
+//                                        Text(text = bottomNavigationItem.title)
+//                                    }
+//                                )
+//                            }
+//
+//                        }
+//                    }
+//                ) {
+//                    val paddingValues = it
+//                }
+
+                /**
+                 * navigation örneği
+                 */
 
 //                Surface(
 //                    modifier = Modifier.fillMaxSize(),
@@ -121,11 +137,11 @@ class MainActivity : ComponentActivity() {
 //                            LazyGridComponent()
 //                        }
 //                    }
-//                }
             }
         }
     }
 }
+
 
 @Composable
 fun SecondUi() {
