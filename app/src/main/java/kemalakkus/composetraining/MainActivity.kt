@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kemalakkus.composetraining.ui.examples.AnimationTraining
+import kemalakkus.composetraining.ui.examples.CanvasTraining
 import kemalakkus.composetraining.ui.theme.ComposeTrainingTheme
 
 class MainActivity : ComponentActivity() {
@@ -57,8 +58,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeTrainingTheme {
 
-                AnimationTraining()
-
+                CanvasTraining()
                 /**
                  * botttom navbar örneğinin state i
                  */
